@@ -1,0 +1,31 @@
+#include<stdio.h>
+
+int main(){
+
+    float   f  =  13.5;
+
+    int i=0,n=10;
+
+        for(i=0;i<n;i=i+2){
+              printf("This is a for loop!!\n");
+          }
+
+     i=0;
+
+    while(i<n){
+
+        printf("It's While loop!\n");
+        i=i+2;
+  }
+
+  //printf("Break Statement\n");
+
+     int k=18;
+
+        while(k>0){
+           if(k==3) break; //if k=3,then i would not be printed
+        printf("Break statement used\n");
+        k=k/3;
+  }
+}
+
