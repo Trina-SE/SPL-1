@@ -1,8 +1,47 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
+
+struct token{
+
+    string name;
+    string type;
+    int id;
+};
+
+token tok[1000];
+
+void removeAllComments(FILE *input_file, FILE *output_file) {
+
+    char c, next_c;
+
+    while ((c = fgetc(input_file)) != EOF) {
+        if (c == '/') {
+            next_c = fgetc(input_file);
+            if (next_c == '/') {
+                while ((c = fgetc(input_file)) != EOF && c != '\n') {}
+                if (c == '\n') {
+                    fputc(c, output_file);
+                }
+            } else if (next_c == '*') {
+                while ((c = fgetc(input_file)) != EOF) {
+                    if (c == '*') {
+                        next_c = fgetc(input_file);
+                        if (next_c == '/') {
+                            break;
+                        } else {
+                            ungetc(next_c, input_file);
+                        }
+                    }
+                }
+            } else {
+                fputc(c, output_file);
+                fputc(next_c, output_file);
+            }
+        } else {
+            fputc(c, output_file);
+        }
+    }
+}
 
 string keyword[6]={"for","while","if","else","switch","do"};
 
@@ -121,9 +160,31 @@ bool break_stmt(string str){
 }
 
 
-vector <string> tokens;
+int main() {
 
-int main(){
+    FILE *input_file, *output_file;
+    char input_filename[10000], output_filename[10000];
+
+    input_file = fopen("input.txt", "r");
+
+    if (input_file == NULL) {
+        printf(" Error: Could not open input file.\n");
+        return 1;
+    }
+
+    output_file = fopen("sourceCode.txt", "w");
+
+    if (output_file == NULL) {
+        printf("Error: Could not open output file.\n");
+        return 1;
+    }
+
+    removeAllComments(input_file, output_file);
+
+    fclose(input_file);
+    fclose(output_file);
+
+    printf("Comment removal complete.\n");
 
     string str="";
     ifstream input;
@@ -132,12 +193,13 @@ int main(){
     char ch;
     int token=0;
 
-    input.open("C_sourceCode.txt");
+    input.open("sourceCode.txt");
     output.open("Token.txt");
 
     if(input.is_open()){
 
-        cout<<"Input file is Opened\n";
+        cout<<"File is Opened which contains C source code\n";
+
         char prev_char='@';
         input.get(ch);
 
@@ -146,20 +208,24 @@ int main(){
 
                 if(type_spec(str)==true){
 
-                    output<<str<<" -->type_spec\n";
+                    tok[token].name=str;
+                    tok[token].type="type_spec";
+                    tok[token].id=5;
                     str="";
                     token++;
-                    tokens.push_back("type_spec");
                     input.get(ch);
                     break;
                 }
 
                 if(str[0]=='#' && str[str.size()-1]=='>'){
-                    output<<str<<" -->Header_file\n";
+
+                    tok[token].name=str;
+                    tok[token].type="Header";
+                    tok[token].id=1;
                     token++;
-                    tokens.push_back("Header_file");
                 }
                 str="";
+
             }
 
             else{
@@ -179,76 +245,106 @@ int main(){
         if(ch==',' || ch==';' || ch==' ' || ch=='=' || ch=='\n' || ch=='\t' || ch=='('|| ch==')' || ch=='{'|| ch=='}'|| ch=='"'|| ch==']'|| ch=='['|| ch=='+'|| ch=='-'|| ch=='*'|| ch=='/'|| ch=='%'|| ch=='!'|| ch=='<'|| ch=='>'){
 
             if(type_spec(str)==true){
-                output<<str<<" -->type_spec\n";
+
+                    tok[token].name=str;
+                    tok[token].type="type_spec";
+                    tok[token].id=5;
+
                 str="";
                 token++;
-                tokens.push_back("type_spec");
             }
+
             else if(str=="while"){
-                output<<str<<"-->WHILE_LOOP\n";
+
+                tok[token].name=str;
+                tok[token].type="while_stmt";
+                tok[token].id=10;
                 str="";
                 token++;
-                tokens.push_back("while_stmt");
             }
             else if(str=="for"){
-                output<<str<<"-->FOR_LOOP\n";
+
+                    tok[token].name=str;
+                    tok[token].type="for_stmt";
+                    tok[token].id=15;
                 str="";
                 token++;
-                tokens.push_back("for_loop");
             }
             else if(str=="void"){
-                output<<str<<" -->VOID\n";
+
+                    tok[token].name=str;
+                    tok[token].type="type_spec";
+                    tok[token].id=4;
                 str="";
                 token++;
-                tokens.push_back("VOID");
             }
             else if(break_stmt(str)==true){
-                output<<str<<"-->BREAK\n";
+
+                    tok[token].name=str;
+                    tok[token].type="break_stmt";
+                    tok[token].id=20;
+
                 str="";
                 token++;
-                tokens.push_back("break_stmt");
                }
             else if(ifElse_stmt(str)==13){
-                output<<str<<"-->IF\n";
+
+                    tok[token].name=str;
+                    tok[token].type="if_stmt";
+                    tok[token].id=22;
+
                 str="";
                 token++;
-                tokens.push_back("if_stmt");
             }
             else if(ifElse_stmt(str)==26){
-                output<<str<<"-->ELSE\n";
+
+                    tok[token].name=str;
+                    tok[token].type="if_stmt";
+                    tok[token].id=23;
+
                 str="";
                 token++;
-                tokens.push_back("else_stmt");
             }
             else if(literal_int(str)==true){
-                output<<str<<"-->INT_LIT\n";
+
+                    tok[token].name=str;
+                    tok[token].type="INT_LIT";
+                    tok[token].id=3;
                 str="";
                 token++;
-                tokens.push_back("INT_LIT");
                }
             else if(literal_bool(str)==true){
-                output<<str<<"-->BOOL_LIT\n";
+
+                    tok[token].name=str;
+                    tok[token].type="BOOL_LIT";
+                    tok[token].id=6;
                 str="";
                 token++;
-                tokens.push_back("BOOL_LIT");
                }
             else if(literal_float(str)==true){
-                output<<str<<"-->FLOAT_LIT\n";
+
+                    tok[token].name=str;
+                    tok[token].type="FLOAT_LIT";
+                    tok[token].id=2;
                 str="";
                 token++;
-                tokens.push_back("FLOAT_LIT");
                }
             else if(return_stmt(str)==true){
-                output<<str<<"-->RETURN\n";
+
+                    tok[token].name=str;
+                    tok[token].type="RETURN";
+                    tok[token].id=30;
+
                 str="";
                 token++;
-                tokens.push_back("return_stmt");
                }
             else if(ident(str)==true){
-                output<<str<<"-->IDENT\n";
+
+                    tok[token].name=str;
+                    tok[token].type="IDENT";
+                    tok[token].id=28;
                 str="";
                 token++;
-                tokens.push_back("IDENT");
                }
             if(ch=='"'){
 
@@ -260,119 +356,108 @@ int main(){
                     prev_char=ch;
                     input.get(ch);
                   }
-                output<<str<<ch<<"-->STRING_LIT\n";
+
+                    tok[token].name=str;
+                    tok[token].type="STRING_LIT";
+                    tok[token].id=7;
             }
             if(ch==';'){
-                output<<ch<<"-->SEMICOLON\n";
+
+                    tok[token].name=";";
+                    tok[token].type="SEMICOLON";
+                    tok[token].id=36;
                 str="";
                 token++;
-                tokens.push_back(";");
 
             }
             if(ch==','){
-                output<<ch<<"-->COMA\n";
+
+                    tok[token].name=",";
+                    tok[token].type="COMA";
+                    tok[token].id=35;
                 str="";
                 token++;
-                tokens.push_back(",");
-              //  prev_char=str.size()-1;
             }
             if(ch=='('){
-                output<<ch<<"-->FIRST_BRACKET_OPEN\n";
+
+                    tok[token].name="(";
+                    tok[token].type="F_BRAC_O";
+                    tok[token].id=37;
                 str="";
                 token++;
-                tokens.push_back("(");
-              //  prev_char=str.size()-1;
             }
             if(ch==')'){
-                output<<ch<<"-->FIRST_BRACKET_CLOSE\n";
+
+                    tok[token].name=")";
+                    tok[token].type="F_BRAC_C";
+                    tok[token].id=38;
                 str="";
                 token++;
-                tokens.push_back(")");
-              //  prev_char=str.size()-1;
             }
             if(ch=='{'){
-                output<<ch<<"-->SECOND_BRACKET_OPEN\n";
+                    tok[token].name="{";
+                    tok[token].type="S_BRAC_O";
+                    tok[token].id=39;
                 str="";
                 token++;
-                tokens.push_back("{");
-               // prev_char=str.size()-1;
             }
             if(ch=='}'){
-                output<<ch<<"-->SECOND_BRACKET_CLOSE\n";
+                    tok[token].name="}";
+                    tok[token].type="S_BRAC_C";
+                    tok[token].id=40;
                 str="";
                 token++;
-                tokens.push_back("}");
-               // prev_char=str.size()-1;
             }
             if(ch=='['){
-                output<<ch<<"-->THIRD_BRACKET_OPEN\n";
+                    tok[token].name="[";
+                    tok[token].type="T_BRAC_O";
+                    tok[token].id=41;
                 str="";
                 token++;
-                tokens.push_back("[");
-               // prev_char=str.size()-1;
             }
             if(ch==']'){
-                output<<ch<<"-->THIRD_BRACKET_CLOSE\n";
+                    tok[token].name="]";
+                    tok[token].type="T_BRAC_C";
+                    tok[token].id=42;
                 str="";
                 token++;
-                tokens.push_back("]");
-               // prev_char=str.size()-1;
             }
-            if(ch=='*'){
-                output<<ch<<"-->MULTIPLICATION\n";
-                str="";
-                token++;
-                tokens.push_back("*");
-              //  prev_char=str.size()-1;
-            }
+
             if(ch=='+'){
-                output<<"("<<ch<<")"<<"-->ADDITION\n";
+                    tok[token].name="+";
+                    tok[token].type="ADDITION";
+                    tok[token].id=46;
                 str="";
                 token++;
-                tokens.push_back("+");
-               // prev_char=str.size()-1;
             }
             if(ch=='-'){
-                output<<"("<<ch<<")"<<"-->SUBTRACTION\n";
+                    tok[token].name="-";
+                    tok[token].type="SUBTRACTION";
+                    tok[token].id=47;
                 str="";
                 token++;
-                tokens.push_back("-");
-               // prev_char=str.size()-1;
             }
-            if(ch=='/'){
-                output<<ch<<"-->DIVISION\n";
-                str="";
-                token++;
-                tokens.push_back("/");
-              //  prev_char=str.size()-1;
-            }
-            if(ch=='%'){
-                output<<ch<<"-->MODULUS\n";
-                str="";
-                token++;
-                tokens.push_back("%");
-               // prev_char=str.size()-1;
-            }
+
             if(ch=='<'){
-                output<<"("<<ch<<")"<<"-->LESSER\n";
+                    tok[token].name="<";
+                    tok[token].type="LESSER";
+                    tok[token].id=49;
                 str="";
                 token++;
-                tokens.push_back("<");
-               // prev_char=str.size()-1;
             }
             if(ch=='>'){
-                output<<"("<<ch<<")"<<"-->GREATER\n";
+                    tok[token].name=">";
+                    tok[token].type="GREATER";
+                    tok[token].id=48;
                 str="";
                 token++;
-                tokens.push_back(">");
-              //  prev_char=str.size()-1;
             }
             if(ch=='!'){
-                output<<ch<<"-->NOT\n";
+                    tok[token].name="!";
+                    tok[token].type="NOT";
+                    tok[token].id=53;
                 str="";
                 token++;
-                tokens.push_back("!");
-              //  prev_char=str.size()-1;
             }
         }
              else str=str+ch;
@@ -381,53 +466,47 @@ int main(){
         input.get(ch);
 
         if(isNot_key(str)==true && ch=='('){
-            output<<str<<"-->FUNCTION\n";
-            str="";
-            token++;
-            tokens.push_back("func");
+                    tok[token].name=str;
+                    tok[token].type="func";
+                    tok[token].id=61;
+                str="";
+                token++;
            }
-
-        else if(prev_char=='/' && ch=='/'){
-                str+="/";
-                prev_char=ch;
-                input.get(ch);
-                 while(ch!='\n'){
-                    str+=ch;
-                    prev_char=ch;
-                    input.get(ch);
-                }
-               str="";
-            }
 
         else if(prev_char=='=' && ch=='='){
-            output<<prev_char<<ch<<"-->EQUAL\n";
-            str="";
-            token++;
-            tokens.push_back("==");
+                    tok[token].name="==";
+                    tok[token].type="EQUAL";
+                    tok[token].id=51;
+                str="";
+                token++;
            }
         else if(prev_char=='!' && ch=='='){
-            output<<prev_char<<ch<<"-->NOT_EQUAL\n";
-            str="";
-            token++;
-            tokens.push_back("!=");
+                    tok[token].name="!=";
+                    tok[token].type="NOT_EQUAL";
+                    tok[token].id=52;
+                str="";
+                token++;
            }
         else if(prev_char=='>' && ch=='='){
-            output<<prev_char<<ch<<"-->GREATER_EQUAL\n";
-            str="";
-            token++;
-            tokens.push_back(">=");
+                    tok[token].name=">=";
+                    tok[token].type="GREATER_EQUAL";
+                    tok[token].id=45;
+                str="";
+                token++;
            }
         else if(prev_char=='<' && ch=='='){
-            output<<prev_char<<ch<<"-->LESS_EQUAL\n";
-            str="";
-            token++;
-            tokens.push_back("<=");
+                    tok[token].name="<=";
+                    tok[token].type="LESS_EQUAL";
+                    tok[token].id=44;
+                str="";
+                token++;
            }
-        else if(prev_char=='=' && ch!='=' && tokens[token-1]!="==" && tokens[token-1]!="ASSIGN"){
-            output<<"="<<"-->ASSIGNMENT\n";
-            str="";
-            token++;
-            tokens.push_back("ASSIGN");
+        else if(prev_char=='=' && ch!='=' && tok[token-1].name!="==" && tok[token-1].type!="ASSIGNMENT"){
+                    tok[token].name="=";
+                    tok[token].type="ASSIGNMENT";
+                    tok[token].id=70;
+                str="";
+                token++;
            }
         }
    }
@@ -435,12 +514,29 @@ int main(){
     cout<<"Input File is not opened\n";
    }
 
-   cout<<"Number of Tokens: "<<token<<"\n";
+   cout<<"Number of Tokens: "<<token-1<<"\n";
    cout<<"Tokenization is done successfully\n";
 
    input.close();
-   output.close();
+
+   output<<"NO: "<<"  Token"<<"\t\t\t\t"<<"Token_Type"<<"\t\t\t"<<"Token_ID"<<"\n";
+   output<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+
+   output<<1<<". "<<tok[0].name<<"\t\t\t"<<tok[0].type<<"\t\t\t\t"<<tok[0].id<<"\n";
+
+   for(int i=1;i<token;i++){
+
+        if(tok[i].name=="int" && tok[i+1].name=="main"){
+            output<<i+1<<". "<<"int main"<<"\t\t\t\t\t"<<"main_func"<<"\t\t\t\t"<<"9"<<"\n";
+            i++;
+            continue;
+        }
+
+        output<<i<<". "<<tok[i].name<<"\t\t\t\t\t"<<tok[i].type<<"\t\t\t\t"<<tok[i].id<<"\n";
+
+   }
 
    return 0;
+
 
 }
