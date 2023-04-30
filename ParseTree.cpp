@@ -241,6 +241,13 @@ node type_spec(string str){
             indx++;
             newnode.children.push_back({"BOOL", {}});
      }
+   /*  else{
+            tree[indx].lev=level;
+            tree[indx].parent="type_spec";
+            tree[indx].child.push_back("NULL");
+            indx++;
+            newnode.children.push_back({"NULL", {}});
+     }*/
 
      return newnode;
 
@@ -314,6 +321,17 @@ node compound_stmt(string str){
       //input>>str1;
       //cout<<":"<<str1<<"::"<<str;
       newnode.children.push_back({"stmt_list", {}});
+
+      /*if(str=="40"){
+      open--;
+      tree[indx].lev=2;
+      tree[indx].parent="stmt";
+      tree[indx].child.push_back("E");
+      indx++;
+      newnode.children.push_back({"E", {}});
+
+    }*/
+
       l=level;
       level++;
       newnode.children.push_back(stmt_list(str1));
@@ -527,6 +545,16 @@ node local_decls(string str){
       int k=level;
       level++;
 
+      /* if(str1=="40"){
+      open--;
+      tree[indx].lev=2;
+      tree[indx].parent="stmt";
+      tree[indx].child.push_back("E");
+      indx++;
+      newnode.children.push_back({"E", {}});
+
+    }*/
+
       newnode.children.push_back(local_decls(str1));
 
       level=k;
@@ -574,6 +602,16 @@ node local_decl (string str){
             newnode.children.push_back(type_spec(strP));
             level=l;
         }
+
+    /*  else if(str=="40"){
+      open--;
+      tree[indx].lev=2;
+      tree[indx].parent="stmt";
+      tree[indx].child.push_back("E");
+      indx++;
+      newnode.children.push_back({"E", {}});
+
+    }*/
         else if(str=="41"){
             input>>str;
             input>>str;
@@ -591,7 +629,7 @@ node local_decl (string str){
             level=l;
         }
         else{
-            cout<<"SEMICOLON MISSING\n";
+            cout<<"Input code is not following the Context Free Grammar!\n";
         }
 
     }
@@ -638,6 +676,17 @@ node if_stmt (string str){
     level++;
     newnode.children.push_back(st_list(str1));
     level=l;
+
+    /* if(str=="40"){
+      open--;
+      tree[indx].lev=2;
+      tree[indx].parent="stmt";
+      tree[indx].child.push_back("E");
+      indx++;
+      newnode.children.push_back({"E", {}});
+
+    }*/
+
     newnode.children.push_back({"}", {}});
 
   return newnode;
@@ -716,6 +765,15 @@ node st (string str){
       level=l;
 
     }
+/*  else if(str=="40"){
+      open--;
+      tree[indx].lev=2;
+      tree[indx].parent="stmt";
+      tree[indx].child.push_back("E");
+      indx++;
+      newnode.children.push_back({"E", {}});
+
+    }*/
     else if(str=="81" || str=="82" || str=="83"){
 
       tree[indx].lev=level;
