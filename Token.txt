@@ -1,101 +1,188 @@
-#include<stdio.h> -->Header_file
-int -->type_spec
-main-->FUNCTION
-(-->FIRST_BRACKET_OPEN
-)-->FIRST_BRACKET_CLOSE
-{-->SECOND_BRACKET_OPEN
-float -->type_spec
-f-->IDENT
-=-->ASSIGNMENT
-13.5-->FLOAT_LIT
-;-->SEMICOLON
-int -->type_spec
-i-->IDENT
-=-->ASSIGNMENT
-0-->INT_LIT
-,-->COMA
-n-->IDENT
-=-->ASSIGNMENT
-10-->INT_LIT
-;-->SEMICOLON
-for-->FOR_LOOP
-(-->FIRST_BRACKET_OPEN
-i-->IDENT
-=-->ASSIGNMENT
-0-->INT_LIT
-;-->SEMICOLON
-i-->IDENT
-(<)-->LESSER
-n-->IDENT
-;-->SEMICOLON
-i-->IDENT
-=-->ASSIGNMENT
-i-->IDENT
-(+)-->ADDITION
-2-->INT_LIT
-)-->FIRST_BRACKET_CLOSE
-{-->SECOND_BRACKET_OPEN
-printf-->FUNCTION
-(-->FIRST_BRACKET_OPEN
-"This is a for loop!!\n"-->STRING_LIT
-)-->FIRST_BRACKET_CLOSE
-;-->SEMICOLON
-}-->SECOND_BRACKET_CLOSE
-i-->IDENT
-=-->ASSIGNMENT
-0-->INT_LIT
-;-->SEMICOLON
-while-->WHILE_LOOP
-(-->FIRST_BRACKET_OPEN
-i-->IDENT
-(<)-->LESSER
-n-->IDENT
-)-->FIRST_BRACKET_CLOSE
-{-->SECOND_BRACKET_OPEN
-printf-->FUNCTION
-(-->FIRST_BRACKET_OPEN
-"It's While loop!\n"-->STRING_LIT
-)-->FIRST_BRACKET_CLOSE
-;-->SEMICOLON
-i-->IDENT
-=-->ASSIGNMENT
-i-->IDENT
-(+)-->ADDITION
-2-->INT_LIT
-;-->SEMICOLON
-}-->SECOND_BRACKET_CLOSE
-/-->DIVISION
-int -->type_spec
-k-->IDENT
-=-->ASSIGNMENT
-18-->INT_LIT
-;-->SEMICOLON
-while-->WHILE_LOOP
-(-->FIRST_BRACKET_OPEN
-k-->IDENT
-(>)-->GREATER
-0-->INT_LIT
-)-->FIRST_BRACKET_CLOSE
-{-->SECOND_BRACKET_OPEN
-if-->IF
-(-->FIRST_BRACKET_OPEN
-k-->IDENT
-==-->EQUAL
-3-->INT_LIT
-)-->FIRST_BRACKET_CLOSE
-break-->BREAK
-;-->SEMICOLON
-/-->DIVISION
-printf-->FUNCTION
-(-->FIRST_BRACKET_OPEN
-"Break statement used\n"-->STRING_LIT
-)-->FIRST_BRACKET_CLOSE
-;-->SEMICOLON
-k-->IDENT
-=-->ASSIGNMENT
-k-->IDENT
-/-->DIVISION
-3-->INT_LIT
-;-->SEMICOLON
-}-->SECOND_BRACKET_CLOSE
-}-->SECOND_BRACKET_CLOSE
+NO:   Token				Token_Type			Token_ID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. #include<stdio.h>			Header				1
+2. float					type_spec				82
+3. f					IDENT				28
+4. ;					SEMICOLON				36
+5. int main					main_func				9
+6. (					F_BRAC_O				37
+7. )					F_BRAC_C				38
+8. {					S_BRAC_O				39
+9. int					type_spec				81
+10. x					IDENT				28
+11. ;					SEMICOLON				36
+12. f					IDENT				28
+13. =					ASSIGNMENT				50
+14. 13.5					FLOAT_LIT				2
+15. ;					SEMICOLON				36
+16. for					for_stmt				15
+17. (					F_BRAC_O				37
+18. x					IDENT				28
+19. =					ASSIGNMENT				50
+20. 0					INT_LIT				3
+21. ;					SEMICOLON				36
+22. x					IDENT				28
+23. <					LESSER				49
+24. 5					INT_LIT				3
+25. ;					SEMICOLON				36
+26. x					IDENT				28
+27. =					ASSIGNMENT				50
+28. x					IDENT				28
+29. +					ADDITION				46
+30. 1					INT_LIT				3
+31. )					F_BRAC_C				38
+32. {					S_BRAC_O				39
+33. printf					func				61
+34. (					F_BRAC_O				37
+35. "-----"					STRING_LIT				21
+36. )					F_BRAC_C				38
+37. ;					SEMICOLON				36
+38. f					IDENT				28
+39. =					ASSIGNMENT				50
+40. f					IDENT				28
+41. -					SUBTRACTION				47
+42. 1					INT_LIT				3
+43. ;					SEMICOLON				36
+44. if					if_stmt				22
+45. (					F_BRAC_O				37
+46. x					IDENT				28
+47. ==					EQUAL				51
+48. 0					INT_LIT				3
+49. )					F_BRAC_C				38
+50. {					S_BRAC_O				39
+51. x					IDENT				28
+52. =					ASSIGNMENT				50
+53. x					IDENT				28
+54. +					ADDITION				46
+55. 2					INT_LIT				3
+56. ;					SEMICOLON				36
+57. printf					func				61
+58. (					F_BRAC_O				37
+59. "-----"					STRING_LIT				21
+60. )					F_BRAC_C				38
+61. ;					SEMICOLON				36
+62. if					if_stmt				22
+63. (					F_BRAC_O				37
+64. x					IDENT				28
+65. >					GREATER				48
+66. 3					INT_LIT				3
+67. )					F_BRAC_C				38
+68. {					S_BRAC_O				39
+69. f					IDENT				28
+70. =					ASSIGNMENT				50
+71. 5.5					FLOAT_LIT				2
+72. ;					SEMICOLON				36
+73. }					S_BRAC_C				40
+74. }					S_BRAC_C				40
+75. f					IDENT				28
+76. =					ASSIGNMENT				50
+77. f					IDENT				28
+78. +					ADDITION				46
+79. 5					INT_LIT				3
+80. ;					SEMICOLON				36
+81. }					S_BRAC_C				40
+82. f					IDENT				28
+83. =					ASSIGNMENT				50
+84. 9.8					FLOAT_LIT				2
+85. ;					SEMICOLON				36
+86. while					while_stmt				10
+87. (					F_BRAC_O				37
+88. x					IDENT				28
+89. >					GREATER				48
+90. 0					INT_LIT				3
+91. )					F_BRAC_C				38
+92. {					S_BRAC_O				39
+93. x					IDENT				28
+94. =					ASSIGNMENT				50
+95. x					IDENT				28
+96. -					SUBTRACTION				47
+97. 1					INT_LIT				3
+98. ;					SEMICOLON				36
+99. f					IDENT				28
+100. =					ASSIGNMENT				50
+101. 13.5					FLOAT_LIT				2
+102. ;					SEMICOLON				36
+103. }					S_BRAC_C				40
+104. f					IDENT				28
+105. =					ASSIGNMENT				50
+106. 11.5					FLOAT_LIT				2
+107. ;					SEMICOLON				36
+108. printf					func				61
+109. (					F_BRAC_O				37
+110. "-----"					STRING_LIT				21
+111. )					F_BRAC_C				38
+112. ;					SEMICOLON				36
+113. while					while_stmt				10
+114. (					F_BRAC_O				37
+115. x					IDENT				28
+116. <					LESSER				49
+117. 5					INT_LIT				3
+118. )					F_BRAC_C				38
+119. {					S_BRAC_O				39
+120. if					if_stmt				22
+121. (					F_BRAC_O				37
+122. x					IDENT				28
+123. ==					EQUAL				51
+124. 0					INT_LIT				3
+125. )					F_BRAC_C				38
+126. {					S_BRAC_O				39
+127. x					IDENT				28
+128. =					ASSIGNMENT				50
+129. x					IDENT				28
+130. +					ADDITION				46
+131. 2					INT_LIT				3
+132. ;					SEMICOLON				36
+133. printf					func				61
+134. (					F_BRAC_O				37
+135. "-----"					STRING_LIT				21
+136. )					F_BRAC_C				38
+137. ;					SEMICOLON				36
+138. if					if_stmt				22
+139. (					F_BRAC_O				37
+140. x					IDENT				28
+141. >					GREATER				48
+142. 3					INT_LIT				3
+143. )					F_BRAC_C				38
+144. {					S_BRAC_O				39
+145. f					IDENT				28
+146. =					ASSIGNMENT				50
+147. 5.5					FLOAT_LIT				2
+148. ;					SEMICOLON				36
+149. }					S_BRAC_C				40
+150. printf					func				61
+151. (					F_BRAC_O				37
+152. "-----"					STRING_LIT				21
+153. )					F_BRAC_C				38
+154. ;					SEMICOLON				36
+155. x					IDENT				28
+156. =					ASSIGNMENT				50
+157. x					IDENT				28
+158. +					ADDITION				46
+159. 8					INT_LIT				3
+160. ;					SEMICOLON				36
+161. }					S_BRAC_C				40
+162. printf					func				61
+163. (					F_BRAC_O				37
+164. "-----"					STRING_LIT				21
+165. )					F_BRAC_C				38
+166. ;					SEMICOLON				36
+167. f					IDENT				28
+168. =					ASSIGNMENT				50
+169. 9					INT_LIT				3
+170. ;					SEMICOLON				36
+171. }					S_BRAC_C				40
+172. x					IDENT				28
+173. =					ASSIGNMENT				50
+174. x					IDENT				28
+175. +					ADDITION				46
+176. 1					INT_LIT				3
+177. ;					SEMICOLON				36
+178. printf					func				61
+179. (					F_BRAC_O				37
+180. "-----"					STRING_LIT				21
+181. )					F_BRAC_C				38
+182. ;					SEMICOLON				36
+183. return					RETURN				30
+184. 0					INT_LIT				3
+185. ;					SEMICOLON				36
+186. }					S_BRAC_C				40
