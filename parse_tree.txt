@@ -1,0 +1,443 @@
+-----------------------------------------------------------------
+In a Tree Format:
+-----------------------------------------------------------------
+program
+    decl_list
+    main_func
+    
+        decl_list
+        decl
+        
+            var_decl
+            
+                type_spec IDENT ;
+                
+                    FLOAT
+        
+            E
+    
+        type_spec
+        main
+        ()
+        compound_stmt
+        
+            {
+            local_decls
+            
+                local_decls
+                local_decl
+                
+                    type_spec IDENT ;
+                    
+                        INT
+                
+                    E
+            stmt_list
+            
+                stmt_list
+                stmt
+                
+                    expr_stmt
+                    
+                        expr
+                        
+                            IDENT
+                            =
+                            expr
+                        ;
+                
+                    stmt_list
+                    stmt
+                    
+                        for_stmt
+                        
+                            FOR
+                            (
+                            for_expr
+                            ;
+                            
+                                expr
+                                
+                                    IDENT
+                                    =
+                                    expr
+                            for_expr
+                            ;
+                            
+                                expr
+                                
+                                    expr
+                                    <
+                                    expr
+                            for_expr
+                            ;
+                            
+                                expr
+                                
+                                    expr
+                                    +
+                                    expr
+                            )
+                            {
+                            st_list
+                            
+                                st_list
+                                st
+                                
+                                    print
+                                    
+                                        printf
+                                        (
+                                        STRING_LIT
+                                        )
+                                        ;
+                                
+                                    st_list
+                                    st
+                                    
+                                        expr_stmt
+                                        
+                                            expr
+                                            
+                                                expr
+                                                -
+                                                expr
+                                            ;
+                                    
+                                        st_list
+                                        st
+                                        
+                                            if_stmt
+                                            
+                                                IF
+                                                (
+                                                expr
+                                                
+                                                    expr
+                                                    ==
+                                                    expr
+                                                )
+                                                {
+                                                st_list
+                                                
+                                                    st_list
+                                                    st
+                                                    
+                                                        expr_stmt
+                                                        
+                                                            expr
+                                                            
+                                                                expr
+                                                                +
+                                                                expr
+                                                            ;
+                                                    
+                                                        st_list
+                                                        st
+                                                        
+                                                            print
+                                                            
+                                                                printf
+                                                                (
+                                                                STRING_LIT
+                                                                )
+                                                                ;
+                                                        
+                                                            st_list
+                                                            st
+                                                            
+                                                                if_stmt
+                                                                
+                                                                    IF
+                                                                    (
+                                                                    expr
+                                                                    
+                                                                        expr
+                                                                        >
+                                                                        expr
+                                                                    )
+                                                                    {
+                                                                    st_list
+                                                                    
+                                                                        st_list
+                                                                        st
+                                                                        
+                                                                            expr_stmt
+                                                                            
+                                                                                expr
+                                                                                
+                                                                                    IDENT
+                                                                                    =
+                                                                                    expr
+                                                                                ;
+                                                                        
+                                                                            E
+                                                                    }
+                                                            
+                                                                E
+                                                }
+                                        
+                                            st_list
+                                            st
+                                            
+                                                expr_stmt
+                                                
+                                                    expr
+                                                    
+                                                        expr
+                                                        +
+                                                        expr
+                                                    ;
+                                            
+                                                E
+                            }
+                    
+                        stmt_list
+                        stmt
+                        
+                            expr_stmt
+                            
+                                expr
+                                
+                                    IDENT
+                                    =
+                                    expr
+                                ;
+                        
+                            stmt_list
+                            stmt
+                            
+                                while_stmt
+                                
+                                    WHILE
+                                    (
+                                    expr
+                                    
+                                        expr
+                                        >
+                                        expr
+                                    )
+                                    {
+                                    st_list
+                                    
+                                        st_list
+                                        st
+                                        
+                                            expr_stmt
+                                            
+                                                expr
+                                                
+                                                    expr
+                                                    -
+                                                    expr
+                                                ;
+                                        
+                                            st_list
+                                            st
+                                            
+                                                expr_stmt
+                                                
+                                                    expr
+                                                    
+                                                        IDENT
+                                                        =
+                                                        expr
+                                                    ;
+                                            
+                                                E
+                                    }
+                            
+                                stmt_list
+                                stmt
+                                
+                                    expr_stmt
+                                    
+                                        expr
+                                        
+                                            IDENT
+                                            =
+                                            expr
+                                        ;
+                                
+                                    stmt_list
+                                    stmt
+                                    
+                                        print
+                                        
+                                            printf
+                                            (
+                                            STRING_LIT
+                                            )
+                                            ;
+                                    
+                                        stmt_list
+                                        stmt
+                                        
+                                            while_stmt
+                                            
+                                                WHILE
+                                                (
+                                                expr
+                                                
+                                                    expr
+                                                    <
+                                                    expr
+                                                )
+                                                {
+                                                st_list
+                                                
+                                                    st_list
+                                                    st
+                                                    
+                                                        if_stmt
+                                                        
+                                                            IF
+                                                            (
+                                                            expr
+                                                            
+                                                                expr
+                                                                ==
+                                                                expr
+                                                            )
+                                                            {
+                                                            st_list
+                                                            
+                                                                st_list
+                                                                st
+                                                                
+                                                                    expr_stmt
+                                                                    
+                                                                        expr
+                                                                        
+                                                                            expr
+                                                                            +
+                                                                            expr
+                                                                        ;
+                                                                
+                                                                    st_list
+                                                                    st
+                                                                    
+                                                                        print
+                                                                        
+                                                                            printf
+                                                                            (
+                                                                            STRING_LIT
+                                                                            )
+                                                                            ;
+                                                                    
+                                                                        st_list
+                                                                        st
+                                                                        
+                                                                            if_stmt
+                                                                            
+                                                                                IF
+                                                                                (
+                                                                                expr
+                                                                                
+                                                                                    expr
+                                                                                    >
+                                                                                    expr
+                                                                                )
+                                                                                {
+                                                                                st_list
+                                                                                
+                                                                                    st_list
+                                                                                    st
+                                                                                    
+                                                                                        expr_stmt
+                                                                                        
+                                                                                            expr
+                                                                                            
+                                                                                                IDENT
+                                                                                                =
+                                                                                                expr
+                                                                                            ;
+                                                                                    
+                                                                                        E
+                                                                                }
+                                                                        
+                                                                            st_list
+                                                                            st
+                                                                            
+                                                                                print
+                                                                                
+                                                                                    printf
+                                                                                    (
+                                                                                    STRING_LIT
+                                                                                    )
+                                                                                    ;
+                                                                            
+                                                                                st_list
+                                                                                st
+                                                                                
+                                                                                    expr_stmt
+                                                                                    
+                                                                                        expr
+                                                                                        
+                                                                                            expr
+                                                                                            +
+                                                                                            expr
+                                                                                        ;
+                                                                                
+                                                                                    E
+                                                            }
+                                                    
+                                                        st_list
+                                                        st
+                                                        
+                                                            print
+                                                            
+                                                                printf
+                                                                (
+                                                                STRING_LIT
+                                                                )
+                                                                ;
+                                                        
+                                                            st_list
+                                                            st
+                                                            
+                                                                expr_stmt
+                                                                
+                                                                    expr
+                                                                    
+                                                                        IDENT
+                                                                        =
+                                                                        expr
+                                                                    ;
+                                                            
+                                                                E
+                                                }
+                                        
+                                            stmt_list
+                                            stmt
+                                            
+                                                expr_stmt
+                                                
+                                                    expr
+                                                    
+                                                        expr
+                                                        +
+                                                        expr
+                                                    ;
+                                            
+                                                stmt_list
+                                                stmt
+                                                
+                                                    print
+                                                    
+                                                        printf
+                                                        (
+                                                        STRING_LIT
+                                                        )
+                                                        ;
+                                                
+                                                    stmt_list
+                                                    stmt
+                                                    
+                                                        return_stmt
+                                                        
+                                                            RETURN
+                                                            expr
+                                                            ;
+                                                    
+            }
