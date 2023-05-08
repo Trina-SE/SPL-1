@@ -1,14 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct token{
+struct Token{
 
-    string name;
-    string type;
-    int id;
+   string name;
+   string type;
+   int id;
+
 };
 
-token tok[1000];
+Token tok [10000];
 
 void removeAllComments(FILE *input_file, FILE *output_file) {
 
@@ -210,7 +211,16 @@ int main() {
 
                     tok[token].name=str;
                     tok[token].type="type_spec";
-                    tok[token].id=5;
+
+                     if(str=="int"){
+                        tok[token].id=81;
+                     }
+                     else if(str=="float"){
+                        tok[token].id=82;
+                     }
+                     else if(str=="bool"){
+                        tok[token].id=83;
+                     }
                     str="";
                     token++;
                     input.get(ch);
@@ -248,7 +258,16 @@ int main() {
 
                     tok[token].name=str;
                     tok[token].type="type_spec";
-                    tok[token].id=5;
+
+                     if(str=="int"){
+                        tok[token].id=81;
+                     }
+                     else if(str=="float"){
+                        tok[token].id=82;
+                     }
+                     else if(str=="bool"){
+                        tok[token].id=83;
+                     }
 
                 str="";
                 token++;
@@ -480,6 +499,13 @@ int main() {
                 str="";
                 token++;
            }
+        else if(prev_char=='(' && ch=='"'){
+                    tok[token].name="\"-----\"";
+                    tok[token].type="STRING_LIT";
+                    tok[token].id=21;
+                str="";
+                token++;
+           }
         else if(prev_char=='!' && ch=='='){
                     tok[token].name="!=";
                     tok[token].type="NOT_EQUAL";
@@ -504,7 +530,7 @@ int main() {
         else if(prev_char=='=' && ch!='=' && tok[token-1].name!="==" && tok[token-1].type!="ASSIGNMENT"){
                     tok[token].name="=";
                     tok[token].type="ASSIGNMENT";
-                    tok[token].id=70;
+                    tok[token].id=50;
                 str="";
                 token++;
            }
@@ -519,22 +545,45 @@ int main() {
 
    input.close();
 
+    vector<int>tokens;
+
    output<<"NO: "<<"  Token"<<"\t\t\t\t"<<"Token_Type"<<"\t\t\t"<<"Token_ID"<<"\n";
    output<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
    output<<1<<". "<<tok[0].name<<"\t\t\t"<<tok[0].type<<"\t\t\t\t"<<tok[0].id<<"\n";
 
+   int idx=2;
+
+    tokens.push_back(tok[0].id);
+
    for(int i=1;i<token;i++){
 
         if(tok[i].name=="int" && tok[i+1].name=="main"){
-            output<<i+1<<". "<<"int main"<<"\t\t\t\t\t"<<"main_func"<<"\t\t\t\t"<<"9"<<"\n";
+            output<<idx<<". "<<"int main"<<"\t\t\t\t\t"<<"main_func"<<"\t\t\t\t"<<"9"<<"\n";
             i++;
+            idx++;
+            tokens.push_back(9);
             continue;
         }
 
-        output<<i<<". "<<tok[i].name<<"\t\t\t\t\t"<<tok[i].type<<"\t\t\t\t"<<tok[i].id<<"\n";
+        output<<idx<<". "<<tok[i].name<<"\t\t\t\t\t"<<tok[i].type<<"\t\t\t\t"<<tok[i].id<<"\n";
+        tokens.push_back(tok[i].id);
+        idx++;
 
    }
+
+   output.close();
+
+   ofstream output2;
+
+   output2.open("Tok.txt");
+
+   for(int i=0;i<tokens.size();i++){
+
+      output2<<tokens[i]<<" ";
+   }
+
+   output2<<"end";
 
    return 0;
 
