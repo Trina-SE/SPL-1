@@ -14,22 +14,22 @@ int main()
                printf("1");
            }
 
-        if(i==1)
+        if(i==2)
           {
-              printf("2");
+              printf("Hello");
           }
 
-        if(i==1)
+        if(i==7)
            {
                printf("3");
            }
 
-        if(i==1)
+        if(i==8)
            {
                printf("4");
            }
 
-       if(i==1)
+       if(i==5)
             {
                 printf("5");
             }
@@ -45,7 +45,7 @@ int main()
     int j;
     for(j=0;j<1321;j=j+1)
     {
-         printf("ebar? ");
+         printf("Hello");
 
     }
     printf("\n");
