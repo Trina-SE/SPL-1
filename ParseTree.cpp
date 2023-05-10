@@ -16,6 +16,7 @@ struct Tree{
    string parent;
    vector<string>child;
    int lev;
+   //int code;
 
 };
 
@@ -662,6 +663,11 @@ node if_stmt (string str){
     input>>str;
     str1=str;
 
+   /* int k=level;
+     level++;
+     newnode.children.push_back(st_list(str1));
+     level=k;*/
+
     int l=level;
     level++;
     newnode.children.push_back(expr(str1));
@@ -854,6 +860,7 @@ node print (string str){
       input>>str;
       input>>str;
       input>>str;//';'
+      //cout<<str;
       input>>str;
 
     str1=str;
@@ -877,6 +884,7 @@ node break_stmt (string str){
 
     indx++;
     input>>str;
+    //cout<<str;
     str1=str;
     return newnode;
 
@@ -979,6 +987,7 @@ node for_stmt (string str){
 
         tree[indx].child.push_back("(");
            newnode.children.push_back({"(", {}});
+           //cout<<indx;
 
     tree[indx].child.push_back("for_expr");
     newnode.children.push_back({"for_expr", {}});
@@ -1019,6 +1028,8 @@ node for_stmt (string str){
     l=level;
     newnode.children.push_back(for_expr(str1));
     level=l;
+
+    //cout<<level;
 
     newnode.children.push_back({")", {}});
     newnode.children.push_back({"{", {}});
@@ -1117,7 +1128,7 @@ node expr (string str){
       //input>>str;
    }
    else if(str=="49"){
-
+      //cout<<str;
       tree[indx].lev=level;
       tree[indx].parent="expr";
       tree[indx].child.push_back("expr");
@@ -1182,6 +1193,7 @@ node expr (string str){
     }
     else if(str=="28"){
         input>>str;
+      //  cout<<str;
      if(str=="46"){
 
       tree[indx].lev=level;
@@ -1199,7 +1211,7 @@ node expr (string str){
     }
 
     else if(str=="47"){
-
+      //cout<<str;
       tree[indx].lev=level;
       tree[indx].parent="expr";
       tree[indx].child.push_back("expr");
@@ -1242,7 +1254,7 @@ void printParseTree(node n, int depth)
 int main(){
 
    input.open("Tok.txt");
-   output.open("parse.txt");
+   output.open("parseTree.txt");
 
    node root;
 
@@ -1262,11 +1274,12 @@ int main(){
 
    //printParseTree(root, 0);
 
+   input.close();
+
    cout<<"Parse Tree:\n";
    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
    cout<<"__\"Parent\"__\t\t\t  __\"Child\"__\n";
    cout<<"-----------------------------------------------------------------\n";
-
 
    for(int i=0;i<indx;i++){
 
@@ -1276,6 +1289,7 @@ int main(){
         cout<<tree[i].child[j]<<"  ";
       }
       cout<<"\n";
+      //input>>to;
    }
    output<<"-----------------------------------------------------------------\n";
    output<<"In a Tree Format:\n";
