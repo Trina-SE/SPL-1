@@ -1,0 +1,25 @@
+NO:   Token				Token_Type			Token_ID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. #include<stdio.h>			Header				1
+2. int					type_spec				81
+3. x					IDENT				28
+4. ;					SEMICOLON				36
+5. int main					main_func				9
+6. (					F_BRAC_O				37
+7. )					F_BRAC_C				38
+8. {					S_BRAC_O				39
+9. x					IDENT				28
+10. =					ASSIGNMENT				50
+11. 6					INT_LIT				3
+12. ;					SEMICOLON				36
+13. float					type_spec				82
+14. f					IDENT				28
+15. ;					SEMICOLON				36
+16. f					IDENT				28
+17. =					ASSIGNMENT				50
+18. 13.5					FLOAT_LIT				2
+19. ;					SEMICOLON				36
+20. return					RETURN				30
+21. 0					INT_LIT				3
+22. ;					SEMICOLON				36
+23. }					S_BRAC_C				40
