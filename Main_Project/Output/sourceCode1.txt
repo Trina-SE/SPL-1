@@ -1,0 +1,18 @@
+
+
+#include<stdio.h>
+
+int x;
+
+int main(){
+
+      x=6;
+                
+      float f;
+      f=13.5;
+
+
+
+return 0;
+
+}
