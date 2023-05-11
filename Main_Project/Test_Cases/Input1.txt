@@ -1,0 +1,21 @@
+//Small input
+
+#include<stdio.h>
+
+int x;
+
+int main(){
+
+      x=6;
+                //x=0;
+      float f;
+      f=13.5;
+
+/*Multiple Line Comments
+end of the program
+------------------------
+*/
+
+return 0;
+
+}
