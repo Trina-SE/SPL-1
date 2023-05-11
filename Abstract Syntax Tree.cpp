@@ -35,6 +35,47 @@ void printAbstractSyntaxTree(node n, int depth)
 
 int parseTreeNode=0;
 int abstractSyntaxTreeNode=0;
+vector<Tree>ast;
+
+void printASTDetail(){
+
+    cout<<"No:  Parent\t\tNumber of Childs\t\t\tIs LEAF\t\t\tChilds\n";
+    cout<<"-------------------------------------------------------------------------------------------------------------------\n";
+
+    for(int i=0;i<abstractSyntaxTreeNode;i++){
+
+    cout<<i+1<<": "<<ast[i].parent<<"\t\t";
+
+       int coun=0,leaf=0;
+
+      for(int j=0;j<ast[i].child.size();j++){
+        coun++;
+        if(ast[i].child[j]=="........."){
+            leaf=1;
+        }
+      }
+
+      if(leaf==1){
+        cout<<"\t"<<"\tX"<<"\t\t\t\t";
+        cout<<"YES\t\t\t\t";
+      }
+      else{
+        cout<<"\t"<<coun<<"\t\t\t\t";
+        cout<<"NO\t\t\t\t";
+      }
+
+      for(int j=0;j<ast[i].child.size();j++){
+        if(ast[i].child[j]=="........."){
+             cout<<"NO CHILD";
+             break;
+        }
+        cout<<ast[i].child[j]<<"\n\t\t\t\t\t\t\t\t\t\t\t\t";
+      }
+
+      cout<<"\n";
+       cout<<"-------------------------------------------------------------------------------------------------------------------\n";
+   }
+}
 
 int main(){
 
@@ -44,8 +85,6 @@ int main(){
 
 
    deleteEnode(root);
-
-   vector<Tree>ast;
 
      for(int i=0;i<indx;i++){
         ast.push_back(tree[i]);
@@ -61,6 +100,13 @@ int main(){
                 i--;
             }
         }
+     }
+
+     for(int i=0;i<ast.size();i++){
+            if(ast[i].parent=="E"||ast[i].parent=="("||ast[i].parent==")"||ast[i].parent=="{"||ast[i].parent=="}"||ast[i].parent==";"){
+                ast.erase(ast.begin()+i);
+                i--;
+            }
      }
 
      // Brackets and semicolon
@@ -106,23 +152,30 @@ int main(){
 
      abstractSyntaxTreeNode=ast.size();
 
-   cout << "\nAbstract Syntax Tree:\n";
+   cout<<"_______________________\n";
+   cout<<"Abstract Syntax Tree:\n";
+   cout<<"_______________________\n\n";
+
+     printASTDetail();
+
+/*   cout << "\nAbstract Syntax Tree:\n";
    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
    cout<<"__\"Parent\"__\t\t\t  __\"Child\"__\n";
    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
     for(int i=0;i<ast.size();i++){
 
-      cout<<ast[i].parent<<"  ------------------------------------------->";
+      cout<<ast[i].parent<<"\t\t\t---->";
 
       for(int j=0;j<ast[i].child.size();j++){
         cout<<ast[i].child[j]<<"  ";
       }
       cout<<"\n";
+
     //  cout<<"__________________________________________________________\n";
       //input>>to;
    }
-
+*/
    output3<<"-----------------------------------------------------------------\n";
    output3<<"In a Tree Format:\n";
    output3<<"-----------------------------------------------------------------\n";
@@ -131,10 +184,17 @@ int main(){
 
     printAbstractSyntaxTree(root, 0);
 
-    cout<<"\n`````````````````````````````````````````````````\n";
+    cout<<"\n";
     cout<<"Calculation:\n";
     cout<<"`````````````````````````````````````````````````\n";
 
-    cout<<"Total node of Parse Tree: "<<parseTreeNode<<"\n";
-    cout<<"Total node of Abstract Syntax Tree: "<<abstractSyntaxTreeNode<<"\n";
+    cout<<"PARSE TREE          : "<<"  Total Number of NODES: "<<parseTreeNode;
+    cout<<"\tAllocated Memory: "<<(parseTreeNode*128)<<" bytes\n";
+    cout<<"ABSTRACT SYNTAX TREE: "<<"  Total Number of NODES: "<<abstractSyntaxTreeNode;
+    cout<<"\tAllocated Memory: "<<(abstractSyntaxTreeNode*128)<<" bytes\n\n";
+    double comp=(parseTreeNode-abstractSyntaxTreeNode)/1.0;
+    comp=comp/parseTreeNode;
+    comp=comp*100;
+    cout<<"Compression Percentage: "<<comp<<" %\n";
+
 }
