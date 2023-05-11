@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#include "Tokenization.cpp"
-#include "ParseTree.cpp"
+#include "t.cpp"
+#include "p.cpp"
 
 using namespace std;
 
@@ -58,6 +58,7 @@ int main(){
         for(int j=0;j<ast[i].child.size();j++){
             if(ast[i].child[j]=="E"){
                 ast.erase(ast.begin()+i);
+                i--;
             }
         }
      }
@@ -96,8 +97,9 @@ int main(){
 
      for(int i=0;i<ast.size();i++){
             if(ast[i].child.size()==1){
-                 if(ast[i].child[0]==ast[i].parent){ cout<<"||**";
+                 if(ast[i].child[0]==ast[i].parent){
                      ast.erase(ast.begin()+i);
+
                 }
             }
         }
