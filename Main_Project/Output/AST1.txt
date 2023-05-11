@@ -1,0 +1,55 @@
+program
+    decl_list
+    main_func
+    
+        decl_list
+        decl
+        
+            var_decl
+            
+                type_spec IDENT
+                
+                    INT
+        
+    
+        int main ()
+        
+            stmt_list
+            stmt
+            
+                expr_stmt
+                
+                    expr
+                    
+                        IDENT
+                        =
+                        expr
+            
+                stmt_list
+                stmt
+                
+                    var_decl
+                    
+                        type_spec IDENT
+                        
+                            FLOAT
+                
+                    stmt_list
+                    stmt
+                    
+                        expr_stmt
+                        
+                            expr
+                            
+                                IDENT
+                                =
+                                expr
+                    
+                        stmt_list
+                        stmt
+                        
+                            return_stmt
+                            
+                                RETURN
+                                expr
+                        
