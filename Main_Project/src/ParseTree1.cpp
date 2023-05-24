@@ -697,9 +697,9 @@ node local_decl (string str){
             newnode.children.push_back(type_spec(strP));
             level=l;
         }
-        else{
+        /*else{
             cout<<"Input code is not following the Context Free Grammar!\n";
-        }
+        }*/
 
     }
 
