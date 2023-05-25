@@ -11,6 +11,13 @@ struct node
     vector<node> children;
 };
 
+struct Node
+{
+    string data;
+    struct Node* next;
+    struct Node* child;
+};
+
 struct Tree{
 
    string parent;
@@ -26,8 +33,37 @@ int indx=0;
 int level=0;
 int open=0;
 
+Node* newNode(string data)
+{
+    Node* newNode = new Node;
+    newNode->next = newNode->child = NULL;
+    newNode->data = data;
+    return newNode;
+}
+Node* addSibling(Node* n, string data)
+{
+    if (n == NULL)
+        return NULL;
+
+    while (n->next)
+        n = n->next;
+
+    return (n->next = newNode(data));
+}
+Node* addChild(Node* n, string data)
+{
+    if (n == NULL)
+        return NULL;
+
+    if (n->child)
+        return addSibling(n->child, data);
+    else
+        return (n->child = newNode(data));
+}
+
 void printParseTree(node newnode, int depth);
 void printTreeDetail();
+void traverseTree(Node* root);
 node parse (string str);
 node program (string str);
 node decl_list(string str);
@@ -138,7 +174,7 @@ node decl_list(string str){
 
      tree[indx].lev=level+1;
      tree[indx].parent="E";
-     tree[indx].child.push_back(".........");
+     tree[indx].child.push_back("-");
 
      indx++;
 
@@ -240,16 +276,16 @@ node type_spec(string str){
 
             tree[indx].lev=level+1;
             tree[indx].parent="INT";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
              tree[indx].lev=level+1;
             tree[indx].parent="IDENT";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
              tree[indx].lev=level+1;
             tree[indx].parent=";";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
             newnode.children.push_back({"INT", {}});
      }
@@ -260,16 +296,16 @@ node type_spec(string str){
             indx++;
             tree[indx].lev=level+1;
             tree[indx].parent="FLOAT";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
              tree[indx].lev=level+1;
             tree[indx].parent="IDENT";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
              tree[indx].lev=level+1;
             tree[indx].parent=";";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
             newnode.children.push_back({"FLOAT", {}});
      }
@@ -280,15 +316,15 @@ node type_spec(string str){
             indx++;
             tree[indx].lev=level+1;
             tree[indx].parent="BOOL";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
              tree[indx].lev=level+1;
             tree[indx].parent="IDENT";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
              tree[indx].lev=level+1;
             tree[indx].parent=";";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
             newnode.children.push_back({"BOOL", {}});
      }
@@ -331,7 +367,7 @@ node main_func(string str){
             indx++;
             tree[indx].lev=level+1;
       tree[indx].parent="int main ()";
-      tree[indx].child.push_back(".........");
+      tree[indx].child.push_back("-");
       indx++;
             int l=level;
             level++;
@@ -346,7 +382,7 @@ node main_func(string str){
             indx++;
             tree[indx].lev=level+1;
             tree[indx].parent="{";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
             int l=level;
             level++;
@@ -354,7 +390,7 @@ node main_func(string str){
             level=l;
             tree[indx].lev=level+1;
             tree[indx].parent="}";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
             newnode.children.push_back({"}", {}});
         }
@@ -377,7 +413,7 @@ node compound_stmt(string str){
 
             tree[indx].lev=level+1;
             tree[indx].parent="{";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
       newnode.children.push_back({"{", {}});
@@ -396,7 +432,7 @@ node compound_stmt(string str){
       level=l;
             tree[indx].lev=level+1;
             tree[indx].parent="}";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
       newnode.children.push_back({"}", {}});
@@ -549,7 +585,7 @@ node stmt_list(string str){
 
      tree[indx].lev=level+1;
             tree[indx].parent="E";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
 
@@ -640,7 +676,7 @@ node local_decls(string str){
 
      tree[indx].lev=level+1;
             tree[indx].parent="E";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
 
@@ -697,9 +733,6 @@ node local_decl (string str){
             newnode.children.push_back(type_spec(strP));
             level=l;
         }
-        /*else{
-            cout<<"Input code is not following the Context Free Grammar!\n";
-        }*/
 
     }
 
@@ -728,11 +761,11 @@ node if_stmt (string str){
           indx++;
           tree[indx].lev=level+1;
             tree[indx].parent="IF";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
             tree[indx].lev=level+1;
             tree[indx].parent="(";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
 
@@ -752,11 +785,11 @@ node if_stmt (string str){
     level=l;
     tree[indx].lev=level+1;
             tree[indx].parent=")";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
     tree[indx].lev=level+1;
             tree[indx].parent="{";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
     newnode.children.push_back({")", {}});
@@ -772,7 +805,7 @@ node if_stmt (string str){
 
     tree[indx].lev=level+1;
             tree[indx].parent="}";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
     newnode.children.push_back({"}", {}});
@@ -804,7 +837,7 @@ node st_list (string str){
         indx++;
         tree[indx].lev=level+1;
             tree[indx].parent="E";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
 
@@ -938,23 +971,23 @@ node print (string str){
 
             tree[indx].lev=level+1;
             tree[indx].parent="printf";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
              tree[indx].lev=level+1;
             tree[indx].parent="(";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
             tree[indx].lev=level+1;
             tree[indx].parent="STRING_LIT";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
              tree[indx].lev=level+1;
             tree[indx].parent=")";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
              tree[indx].lev=level+1;
             tree[indx].parent=";";
-            tree[indx].child.push_back(".........");
+            tree[indx].child.push_back("-");
              indx++;
 
       input>>str;
@@ -986,11 +1019,11 @@ node break_stmt (string str){
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="BREAK";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
              indx++;
     tree[indx].lev=level+1;
     tree[indx].parent=";";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
 
     input>>str;
@@ -1019,11 +1052,11 @@ node return_stmt (string str){
 
         tree[indx].lev=level+1;
     tree[indx].parent="RETURN";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
              indx++;
     tree[indx].lev=level+1;
     tree[indx].parent=";";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
 
     }
@@ -1042,16 +1075,16 @@ node return_stmt (string str){
 
           tree[indx].lev=level+1;
     tree[indx].parent="RETURN";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
              indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
 
     tree[indx].lev=level+1;
     tree[indx].parent=";";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
 
           input>>str; //';'
@@ -1079,11 +1112,11 @@ node while_stmt (string str){
         indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="WHILE";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="(";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
 
     newnode.children.push_back({"WHILE", {}});
@@ -1098,11 +1131,11 @@ node while_stmt (string str){
     level=l;
     tree[indx].lev=level+1;
     tree[indx].parent=")";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
         tree[indx].lev=level+1;
         tree[indx].parent="{";
-        tree[indx].child.push_back(".........");
+        tree[indx].child.push_back("-");
     indx++;
     newnode.children.push_back({")", {}});
     newnode.children.push_back({"{", {}});
@@ -1118,7 +1151,7 @@ node while_stmt (string str){
     level=k;
      tree[indx].lev=level+1;
     tree[indx].parent="}";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     newnode.children.push_back({"}", {}});
 
@@ -1159,11 +1192,11 @@ node for_stmt (string str){
         indx++;
         tree[indx].lev=level+1;
     tree[indx].parent="FOR";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="(";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
 
     input>>str; //'('
@@ -1176,7 +1209,7 @@ node for_stmt (string str){
     level=l;
     tree[indx].lev=level+1;
     tree[indx].parent=";";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
 
     newnode.children.push_back({"for_expr", {}});
@@ -1187,7 +1220,7 @@ node for_stmt (string str){
     level=l;
      tree[indx].lev=level+1;
     tree[indx].parent=";";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     newnode.children.push_back({"for_expr", {}});
     newnode.children.push_back({";", {}});
@@ -1198,14 +1231,14 @@ node for_stmt (string str){
     //cout<<level;
     tree[indx].lev=level+1;
     tree[indx].parent=")";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
 
     newnode.children.push_back({")", {}});
     newnode.children.push_back({"{", {}});
     tree[indx].lev=level+1;
     tree[indx].parent="{";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     open++;
     newnode.children.push_back({"st_list", {}});
@@ -1220,7 +1253,7 @@ node for_stmt (string str){
 
     tree[indx].lev=level+1;
     tree[indx].parent="}";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
 
     newnode.children.push_back({"}", {}});
@@ -1265,7 +1298,7 @@ node expr_stmt(string str){
     level=l;
     tree[indx].lev=level+1;
     tree[indx].parent=";";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     newnode.children.push_back({";", {}});
 
@@ -1296,15 +1329,15 @@ node expr (string str){
       indx++;
       tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent=">";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
       input>>str;
       input>>str;
@@ -1324,15 +1357,15 @@ node expr (string str){
       indx++;
         tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="<";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
       input>>str;
       input>>str;
@@ -1351,15 +1384,15 @@ node expr (string str){
       indx++;
          tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="==";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
       input>>str;
       input>>str;
@@ -1379,15 +1412,15 @@ node expr (string str){
       indx++;
       tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="!=";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
       input>>str;
       input>>str;
@@ -1410,15 +1443,15 @@ node expr (string str){
       indx++;
       tree[indx].lev=level+1;
     tree[indx].parent="IDENT";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="=";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
       input>>str;
       input>>str;
@@ -1439,15 +1472,15 @@ node expr (string str){
       indx++;
       tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="+";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
       input>>str;
       input>>str;
@@ -1467,15 +1500,15 @@ node expr (string str){
       indx++;
           tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="-";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
     tree[indx].lev=level+1;
     tree[indx].parent="expr";
-    tree[indx].child.push_back(".........");
+    tree[indx].child.push_back("-");
     indx++;
       input>>str;
       input>>str;
@@ -1520,7 +1553,7 @@ void printParseTreeDetail(){
 
       for(int j=0;j<tree[i].child.size();j++){
         coun++;
-        if(tree[i].child[j]=="........."){
+        if(tree[i].child[j]=="-"){
             leaf=1;
         }
       }
@@ -1535,7 +1568,7 @@ void printParseTreeDetail(){
       }
 
       for(int j=0;j<tree[i].child.size();j++){
-        if(tree[i].child[j]=="........."){
+        if(tree[i].child[j]=="-"){
              cout<<"NO CHILD";
              break;
         }
@@ -1545,6 +1578,47 @@ void printParseTreeDetail(){
       cout<<"\n";
        cout<<"-------------------------------------------------------------------------------------------------------------------\n";
    }
+}
+
+
+void traverseTree(Node* root)
+{
+    if (root == NULL)
+        return;
+
+    cout << root->data << ": ";
+
+    if (root->child)
+        cout << root->child->data << "\t\t";
+    else
+        cout << "null\t";
+
+    if (root->next)
+        cout << root->next->data << endl;
+    else
+        cout <<" null\t" << endl;
+
+    traverseTree(root->child);
+    traverseTree(root->next);
+}
+
+
+void printNode(int nodeIndex) {
+    cout << tree[nodeIndex].parent <<"\t\t";
+
+    if (!tree[nodeIndex].child.empty()) {
+        cout << tree[nodeIndex].child[0] <<"\t\t";
+    }
+    else
+         cout << "-" << "\t\t";
+
+    if (nodeIndex + 1 < 10000 && tree[nodeIndex + 1].lev == tree[nodeIndex].lev) {
+        cout <<tree[nodeIndex + 1].parent <<"\t\t";
+    }
+    else
+         cout << "-" ;
+
+    cout << endl;
 }
 
 void parsing(){
@@ -1568,30 +1642,55 @@ void parsing(){
         cout<<"Brackets are balanced!\n\n";
       }
 
-   //printParseTree(root, 0);
-
    input.close();
 
-   cout<<"_______________\n";
-   cout<<"Parse Tree:\n";
-   cout<<"_______________\n\n";
+   Node* rooting = NULL;
+
+  for (int i = 0; i < indx; i++) {
+    if (rooting == NULL) {
+        rooting = newNode(tree[i].parent);
+    }
+
+    Node* child = addChild(rooting, tree[i].child[0]);
+
+    for (int j = 1; j < tree[i].child.size(); j++) {
+        child = addSibling(child, tree[i].child[j]);
+    }
+  }
+
+      cout << "_______________\n";
+      cout << "Parse Tree:\n";
+      cout << "-----------------\n\n";
+
+      cout << "INFO\t\tLeft Child\t\tRight Sibling\n";
+      cout << "---------------------------------------------------------------------\n";
+
+    //traverseTree(rooting);
+    for (int i = 0; i < 10000; i++) {
+        if (!tree[i].parent.empty()) {
+            printNode(i);
+        }
+    }
 
     printParseTreeDetail();
- /*  cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-   cout<<"__\"Parent\"__\t\t\t  __\"Child\"__\n";
-   cout<<"-----------------------------------------------------------------\n";
+ //  cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+  // cout<<"__\"Parent\"__\t\t\t  __\"Child\"__\n";
+ //  cout<<"-----------------------------------------------------------------\n";
 
-   for(int i=0;i<indx;i++){
+  /* for(int i=0;i<indx;i++){
 
     cout<<tree[i].parent<<"\t\t\t\t-->";
 
       for(int j=0;j<tree[i].child.size();j++){
-        cout<<tree[i].child[j]<<"  ";
+        cout<<tree[i].child[0]<<"  ";
+        break;
       }
-      cout<<"\n";
+      if(tree[i-1].child[i])
+      cout<<tree[i-1].child[i]<<"\n";
+      else cout<<"null\n";
       //input>>to;
-   }
-*/
+   }*/
+
    output<<"-----------------------------------------------------------------\n";
    output<<"In a Tree Format:\n";
    output<<"-----------------------------------------------------------------\n";
