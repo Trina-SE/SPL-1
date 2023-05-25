@@ -50,7 +50,7 @@ void printASTDetail(){
 
       for(int j=0;j<ast[i].child.size();j++){
         coun++;
-        if(ast[i].child[j]=="........."){
+        if(ast[i].child[j]=="-"){
             leaf=1;
         }
       }
@@ -65,7 +65,7 @@ void printASTDetail(){
       }
 
       for(int j=0;j<ast[i].child.size();j++){
-        if(ast[i].child[j]=="........."){
+        if(ast[i].child[j]=="-"){
              cout<<"NO CHILD";
              break;
         }
